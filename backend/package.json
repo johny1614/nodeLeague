@@ -8,8 +8,12 @@
   },
   "devDependencies": {
     "typescript": "~3.8.3",
-    "@types/node": "14.14.25"
+    "@types/node": "14.14.25",
+    "@types/express": "^4.17.1"
   },
   "author": "Michał Lis",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }

@@ -1,6 +1,14 @@
-import * as http from 'http';
+import express from 'express';
 
-http.createServer((req, res) => {
-	res.writeHead(200, { 'Content-Type': 'text/plain' });
-	res.end('hello world\n');
-}).listen(8000, '127.0.0.1');
+const app = express();
+app.get('/', function(req, res) {
+	res.send('Hello World!');
+});
+
+app.get('/kupa', function(req, res) {
+	res.send('Hello World! z kupą!');
+});
+
+app.listen(3000, function() {
+	console.log('Example app listening on port 3000!');
+});
