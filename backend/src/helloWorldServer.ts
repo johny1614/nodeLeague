@@ -1,4 +1,6 @@
 import express from 'express';
+import { MongoClient, Server } from 'mongodb';
+
 
 const app = express();
 app.get('/', function(req, res) {
@@ -10,7 +12,13 @@ app.get('/kupa', function(req, res) {
 });
 
 app.post('/hello', (req, res) => {
-	res.send('co bys tam wrzucil:' + req.headers.input);
+	const connectionUri = 'mongodb://127.0.0.1:27017/?compressors=zlib&gssapiServiceName=mongodb';
+	MongoClient.connect(connectionUri).then((mongoClient: MongoClient) => {
+		mongoClient.db('helloDB').collection('helloCOL').insertOne({ value: req.headers.input }).then(x => {
+			console.log('jest response', x);
+		});
+	});
+	res.send('done' + req.headers.input);
 });
 
 app.listen(3000, function() {
