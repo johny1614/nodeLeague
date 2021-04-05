@@ -1,5 +1,5 @@
 import express from 'express';
-import { MongoClient, Server } from 'mongodb';
+import { MongoClient } from 'mongodb';
 
 
 const app = express();
@@ -18,6 +18,8 @@ app.post('/hello', (req, res) => {
 			console.log('jest response', x);
 		});
 	});
+	res.setHeader('Access-Control-Allow-Origin', 'localhost:4200');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 	res.send('done' + req.headers.input);
 });
 app.listen(3000, function() {
