@@ -24,15 +24,26 @@ app.get('/helloworld', function(req, res) {
 
 app.get('/match/:matchid', (req, res) => {
 	const connectionUri = `https://eun1.api.riotgames.com/lol/match/v4/matches/${req.params.matchid}`;
+	console.log('id:', req.params.matchid);
 	const options = { headers: { 'X-Riot-Token': tokens[0] } };
-	axios.get(connectionUri, options).then(response => {
-		console.log('jest i res!', response);
-		MongoClient.connect(mongoConnectionUri).then((mongoClient: MongoClient) => {
-			mongoClient.db('Riot').collection('Matches').insertOne({ value: response.data }).then(x => {
-				console.log('zapis bazy response', x);
+	MongoClient.connect(mongoConnectionUri).then((mongoClient: MongoClient) => {
+		mongoClient.db('Riot').collection('Matches').findOne({ 'value.gameId': parseInt(req.params.matchid) }).then(response => {
+			res.send(response.value);
+			console.log('dajemy resopnse bo jest w bazce');
+			return;
+		}).catch(x => {
+			console.log(`nie ma w bazce ${req.params.matchid}`);
+			axios.get(connectionUri, options).then(response => {
+				MongoClient.connect(mongoConnectionUri).then((mongoClient: MongoClient) => {
+					mongoClient.db('Riot').collection('Matches').insertOne({ value: response.data }).then(x => {
+					});
+				});
+				console.log('dajemy resopnse');
+				res.send(response.data);
+			}).catch(err => {
+				console.log('czyzby zly matchId?');
 			});
 		});
-		res.send(response.data);
 	});
 });
 
