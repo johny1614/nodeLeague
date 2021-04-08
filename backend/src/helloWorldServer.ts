@@ -27,7 +27,7 @@ app.get('/match/:matchid', (req, res) => {
 	const options = { headers: { 'X-Riot-Token': tokens[0] } };
 	axios.get(connectionUri, options).then(x => {
 		console.log('jest i res!', x);
-		res.send({ match: x.data });
+		res.send({ ...x.data });
 	});
 });
 
