@@ -11,23 +11,28 @@ app.get('/helloworld', function(req, res) {
 	res.send({ text: 'Hello World!' });
 });
 
-app.post('/hello', (req, res) => {
-	MongoClient.connect(mongoConnectionUri).then((mongoClient: MongoClient) => {
-		mongoClient.db('helloDB').collection('helloCOL').insertOne({ value: req.headers.input }).then(x => {
-			console.log('jest response', x);
-		});
-	});
-	res.setHeader('Access-Control-Allow-Origin', 'localhost:4200');
-	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-	res.send({ text: 'done' + req.headers.input });
-});
+// app.post('/hello', (req, res) => {
+// 	MongoClient.connect(mongoConnectionUri).then((mongoClient: MongoClient) => {
+// 		mongoClient.db('Riot').collection('Matches').insertOne({ value: req.headers.input }).then(x => {
+// 			console.log('jest response', x);
+// 		});
+// 	});
+// 	res.setHeader('Access-Control-Allow-Origin', 'localhost:4200');
+// 	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+// 	res.send({ text: 'done' + req.headers.input });
+// });
 
 app.get('/match/:matchid', (req, res) => {
 	const connectionUri = `https://eun1.api.riotgames.com/lol/match/v4/matches/${req.params.matchid}`;
 	const options = { headers: { 'X-Riot-Token': tokens[0] } };
-	axios.get(connectionUri, options).then(x => {
-		console.log('jest i res!', x);
-		res.send({ ...x.data });
+	axios.get(connectionUri, options).then(response => {
+		console.log('jest i res!', response);
+		MongoClient.connect(mongoConnectionUri).then((mongoClient: MongoClient) => {
+			mongoClient.db('Riot').collection('Matches').insertOne({ value: response.data }).then(x => {
+				console.log('zapis bazy response', x);
+			});
+		});
+		res.send(response.data);
 	});
 });
 
