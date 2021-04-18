@@ -2,8 +2,9 @@ import { Application, Request, Response } from 'express';
 import { MongoClient } from 'mongodb';
 import axios from 'axios';
 import { tokens } from '../tokens';
+import { Routes } from './Routes';
 
-export class MatchRoutes {
+export class MatchRoutes extends Routes {
 
 	public route(app: Application) {
 		const mongoConnectionUri = 'mongodb://127.0.0.1:27017/?compressors=zlib&gssapiServiceName=mongodb';
