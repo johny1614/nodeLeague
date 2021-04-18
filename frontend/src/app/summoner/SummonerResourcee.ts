@@ -7,7 +7,8 @@ export class SummonerResource {
   constructor(private http: HttpClient) {
   }
 
-  getMatch(id: string): Observable<any> {
-    return this.http.get(`/match/${id}`);
+  getSummonerByName(name: string, region: string): Observable<any> {
+    const headers: HttpHeaders = new HttpHeaders({ region });
+    return this.http.get(`/summoners/by-name/${name}`, { headers });
   }
 }

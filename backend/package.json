@@ -4,7 +4,7 @@
   "description": "nodeLeague1",
   "main": "index.js",
   "scripts": {
-    "helloWorldServer": "node_modules/.bin/tsc && node dist/helloWorldServer.js"
+    "startBackend": "node_modules/.bin/tsc && node dist/helloWorldServer.js"
   },
   "devDependencies": {
     "typescript": "~3.8.3",

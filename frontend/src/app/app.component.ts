@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HelloDBHelloColResource } from 'src/app/resources/HelloDB/HelloCol/HelloDBHelloColResource';
 import { MatchResource } from 'src/app/resources/MatchResource';
+import { SummonerResource } from 'src/app/summoner/SummonerResourcee';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,17 @@ export class AppComponent implements OnInit {
   @ViewChild('matchInput')
   matchInput: ElementRef;
 
+  @ViewChild('regionInput')
+  regionInput: ElementRef;
+
+  @ViewChild('summonerNameInput')
+  summonerNameInput: ElementRef;
+
   backendHelloWorld: string;
 
   constructor(private helloDBHelloColResource: HelloDBHelloColResource,
-              private matchResource: MatchResource) {
+              private matchResource: MatchResource,
+              private summonerResource: SummonerResource) {
   }
 
   ngOnInit(): void {
@@ -37,5 +45,17 @@ export class AppComponent implements OnInit {
     this.matchResource.getMatch(matchId).subscribe(match => {
       console.log('match', match);
     });
+  }
+
+  getSummonerByName() {
+    const summonerName: string = this.summonerNameInput.nativeElement.value;
+    const region: string = this.regionInput.nativeElement.value;
+    this.summonerResource.getSummonerByName(summonerName, region).subscribe(player => {
+      console.log('player', player);
+    });
+  }
+
+  getSummonerByAccountId() {
+
   }
 }
