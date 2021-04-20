@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HelloDBHelloColResourceModule } from 'src/app/resources/HelloDB/HelloCol/HelloDBHelloColResourceModule';
 import { MatchResource } from 'src/app/resources/MatchResource';
 import { SummonerResource } from 'src/app/summoner/SummonerResourcee';
+import { ChampionImageResource } from 'src/app/resources/ChampionImageResource';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { SummonerResource } from 'src/app/summoner/SummonerResourcee';
     AppRoutingModule,
     HelloDBHelloColResourceModule
   ],
-  providers: [MatchResource, SummonerResource],
+  providers: [MatchResource, SummonerResource, ChampionImageResource],
   bootstrap: [AppComponent]
 })
 export class AppModule {

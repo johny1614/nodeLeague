@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HelloDBHelloColResource } from 'src/app/resources/HelloDB/HelloCol/HelloDBHelloColResource';
 import { MatchResource } from 'src/app/resources/MatchResource';
 import { SummonerResource } from 'src/app/summoner/SummonerResourcee';
+import { ChampionImageResource } from 'src/app/resources/ChampionImageResource';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -21,11 +23,18 @@ export class AppComponent implements OnInit {
   @ViewChild('summonerNameInput')
   summonerNameInput: ElementRef;
 
+  @ViewChild('championName')
+  championNameInput: ElementRef;
+
   backendHelloWorld: string;
 
-  constructor(private helloDBHelloColResource: HelloDBHelloColResource,
+  championIcon: SafeResourceUrl;
+
+  constructor(private _sanitizer: DomSanitizer,
+              private helloDBHelloColResource: HelloDBHelloColResource,
               private matchResource: MatchResource,
-              private summonerResource: SummonerResource) {
+              private summonerResource: SummonerResource,
+              private championImageResource: ChampionImageResource) {
   }
 
   ngOnInit(): void {
@@ -57,5 +66,13 @@ export class AppComponent implements OnInit {
 
   getSummonerByAccountId() {
 
+  }
+
+  getChampionIcon() {
+    const championName = this.championNameInput.nativeElement.value;
+    this.championImageResource.getChampionIcon(championName).subscribe(x => {
+      console.log('champion icon res', x);
+      this.championIcon = x;
+    });
   }
 }

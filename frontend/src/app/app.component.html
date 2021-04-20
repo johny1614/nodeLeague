@@ -14,5 +14,9 @@ Region: <input #regionInput value="EUN1"> <br>
 <br>
 <input #playerAccountIdInput>
 <button (click)="getSummonerByAccountId()">Get summoner by Account id</button>
-
 <br>
+<input #championName>
+<button (click)="getChampionIcon()">Get champion Icon</button>
+<br>
+<img [src]="championIcon">
+
