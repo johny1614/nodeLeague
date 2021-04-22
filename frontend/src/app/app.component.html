@@ -18,5 +18,8 @@ Region: <input #regionInput value="EUN1"> <br>
 <input #championName>
 <button (click)="getChampionIcon()">Get champion Icon</button>
 <br>
-<img [src]="championIcon">
+<br>
+<input #displayMatchChampionsInput [value]="defaultMachId">
+<button (click)="displayMatchChampions()">Display match champions</button>
 
+<img [src]="championIcon">

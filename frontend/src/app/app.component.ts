@@ -2,8 +2,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HelloDBHelloColResource } from 'src/app/resources/HelloDB/HelloCol/HelloDBHelloColResource';
 import { MatchResource } from 'src/app/resources/MatchResource';
 import { SummonerResource } from 'src/app/summoner/SummonerResourcee';
-import { ChampionImageResource } from 'src/app/resources/ChampionImageResource';
+import { ChampionResource } from 'src/app/champion/ChampionResource';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { gamesIds } from './../../../backend/src/staticData/gamesIds';
+
 
 @Component({
   selector: 'app-root',
@@ -26,15 +28,19 @@ export class AppComponent implements OnInit {
   @ViewChild('championName')
   championNameInput: ElementRef;
 
+  @ViewChild('displayMatchChampionsInput')
+  displayMatchChampionsInput: ElementRef;
+
   backendHelloWorld: string;
 
   championIcon: SafeResourceUrl;
+  defaultMachId = gamesIds[0];
 
   constructor(private _sanitizer: DomSanitizer,
               private helloDBHelloColResource: HelloDBHelloColResource,
               private matchResource: MatchResource,
               private summonerResource: SummonerResource,
-              private championImageResource: ChampionImageResource) {
+              private championResource: ChampionResource) {
   }
 
   ngOnInit(): void {
@@ -70,9 +76,21 @@ export class AppComponent implements OnInit {
 
   getChampionIcon() {
     const championName = this.championNameInput.nativeElement.value;
-    this.championImageResource.getChampionIcon(championName).subscribe(x => {
+    this.championResource.getChampionIcon(championName).subscribe(x => {
       console.log('champion icon res', x);
       this.championIcon = x;
+    });
+  }
+
+  displayMatchChampions() {
+    const matchId: string = this.displayMatchChampionsInput.nativeElement.value;
+    this.matchResource.getMatch(matchId).subscribe(match => {
+      console.log('match', match);
+      const matchChampionsKeys = match.participants.map(part => part.championId);
+      console.log('matchChampionsKeys', matchChampionsKeys);
+    });
+    this.championResource.getChampionDataByChampionKey('84').subscribe(x => {
+      console.log('x', x);
     });
   }
 }
