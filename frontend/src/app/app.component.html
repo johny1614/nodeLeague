@@ -19,10 +19,11 @@ Region: <input #regionInput value="EUN1"> <br>
 <button (click)="getChampionIcon()">Get champion Icon</button>
 <br>
 <br>
-<input #displayMatchChampionsInput [value]="defaultMachId">
+<input #displayMatchChampionsInput [(ngModel)]="matchId">
 <button (click)="displayMatchChampions()">Display match champions</button>
 
+<br>
+<app-champions-displayer [matchId]="matchId" [$forceUpdate]="$championIconsForceUpdate"></app-champions-displayer>
 
 <img [src]="championIcon">
 
-<img *ngFor="let icon of championIcons" [src]="icon">

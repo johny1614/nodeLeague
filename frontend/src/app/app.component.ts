@@ -5,8 +5,7 @@ import { SummonerResource } from 'src/app/summoner/SummonerResourcee';
 import { ChampionResource } from 'src/app/champion/ChampionResource';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { gamesIds } from './../../../backend/src/staticData/gamesIds';
-import { ChampionDataDTO } from 'src/app/champion/ChampionDataDTO';
-import { map, switchMap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -36,8 +35,8 @@ export class AppComponent implements OnInit {
   backendHelloWorld: string;
 
   championIcon: SafeResourceUrl;
-  championIcons: Array<SafeResourceUrl>;
-  defaultMachId = gamesIds[0];
+  matchId = gamesIds[0];
+  $championIconsForceUpdate = new Subject();
 
   constructor(private _sanitizer: DomSanitizer,
               private helloDBHelloColResource: HelloDBHelloColResource,
@@ -59,8 +58,7 @@ export class AppComponent implements OnInit {
   }
 
   getMatch(): void {
-    const matchId: string = this.matchInput.nativeElement.value;
-    this.matchResource.getMatch(matchId).subscribe(match => {
+    this.matchResource.getMatch(this.matchId).subscribe(match => {
       console.log('match', match);
     });
   }
@@ -80,30 +78,11 @@ export class AppComponent implements OnInit {
   getChampionIcon() {
     const championName = this.championNameInput.nativeElement.value;
     this.championResource.getChampionIcon(championName).subscribe(x => {
-      console.log('champion icon res', x);
       this.championIcon = x;
     });
   }
 
   displayMatchChampions() {
-    const matchId: string = this.displayMatchChampionsInput.nativeElement.value;
-    this.championIcons = [];
-    this.matchResource.getMatch(matchId).subscribe(match => {
-      console.log('match', match);
-      const matchChampionsKeys = match.participants.map(part => part.championId);
-      console.log('matchChampionsKeys', matchChampionsKeys);
-      matchChampionsKeys.forEach((key, index) => {
-        this.championResource.getChampionDataByChampionKey(key)
-            .pipe(
-              map(championData => championData.name),
-              switchMap((championName: string) => this.championResource.getChampionIcon(championName))
-            )
-            .subscribe(icon => {
-              this.championIcons.push(icon);
-              console.log('index!', index);
-              console.log('icon!', icon);
-            });
-      });
-    });
+    this.$championIconsForceUpdate.next();
   }
 }
