@@ -37,6 +37,9 @@ export class AppComponent implements OnInit {
   championIcon: SafeResourceUrl;
   matchId = gamesIds[0];
   $championIconsForceUpdate = new Subject();
+  summonerNameMatches = 'johny1614';
+  defaultAccountId = 'fpQGRdfEVNMKR_9RzlbAkmfiMHV79Yltob0Q97dNXvASIg'; // to jest uzywane
+  puuid = '5OIrWw5vyjwA6_QgOQotFoI7hmN76wA5WURwE9FDe0VACcPehH45f42pod1N1qXXkGDMaKIOMeKJcQ';
 
   constructor(private _sanitizer: DomSanitizer,
               private helloDBHelloColResource: HelloDBHelloColResource,
@@ -84,5 +87,11 @@ export class AppComponent implements OnInit {
 
   displayMatchChampions() {
     this.$championIconsForceUpdate.next();
+  }
+
+  getSummonerMatches() {
+    this.matchResource.getSummonerMatches(this.summonerNameMatches).subscribe(x => {
+      console.log('x', x);
+    });
   }
 }

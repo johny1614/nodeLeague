@@ -10,11 +10,18 @@ import { ChampionResource } from 'src/app/champion/ChampionResource';
 import { ChampionsDisplayerComponent } from './champion/champions-displayer/champions-displayer.component';
 import { FormsModule } from '@angular/forms';
 import { MatchRepository } from 'src/app/resources/MatchRepository';
+import { ChampionHoverDetailsDirective } from './champion/ChampionHoverDetailsDirective';
+import { ChampionHoverDetailsComponent } from './champion/champion-hover-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChampionsDisplayerComponent
+    ChampionsDisplayerComponent,
+    ChampionHoverDetailsComponent,
+    ChampionHoverDetailsDirective
+  ],
+  entryComponents:[
+    ChampionHoverDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -22,8 +29,8 @@ import { MatchRepository } from 'src/app/resources/MatchRepository';
     HelloDBHelloColResourceModule,
     FormsModule
   ],
-  providers: [MatchResource, SummonerResource, ChampionResource, MatchRepository],
-  bootstrap: [AppComponent]
+  providers: [MatchResource, SummonerResource, ChampionResource, MatchRepository, MatchResource],
+  bootstrap: [AppComponent],
 })
 export class AppModule {
 }

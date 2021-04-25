@@ -1,1 +1,5 @@
-<img *ngFor="let icon of championIcons" [src]="icon">
+<img *ngFor="let icon of championIcons;let i=index"
+     championHoverDetails
+     [championHoverDetailsText]="championsData[i].key"
+     style="position:relative"
+     [src]="icon">

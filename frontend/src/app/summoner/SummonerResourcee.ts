@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class SummonerResource {
@@ -11,4 +11,5 @@ export class SummonerResource {
     const headers: HttpHeaders = new HttpHeaders({ region });
     return this.http.get(`/summoners/by-name/${name}`, { headers });
   }
+
 }

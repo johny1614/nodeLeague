@@ -2,7 +2,7 @@ import { Application, Request, Response } from 'express';
 import { MongoClient } from 'mongodb';
 import axios from 'axios';
 import { tokens } from '../tokens';
-import { Routes } from './Routes';
+import { Routes } from '../routes/Routes';
 
 export class SummonerRoutes extends Routes {
 

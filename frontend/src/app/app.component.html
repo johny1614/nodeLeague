@@ -12,9 +12,16 @@ Region: <input #regionInput value="EUN1"> <br>
 <input #summonerNameInput>
 <button (click)="getSummonerByName()">Get summoner by Name</button>
 <br>
+
+<input [(ngModel)]="summonerNameMatches">
+<button (click)="getSummonerMatches()">Get summoner Matches</button>
+<br>
+
+
 <input #playerAccountIdInput>
 <button (click)="getSummonerByAccountId()">Get summoner by Account id</button>
 <br>
+
 <input #championName>
 <button (click)="getChampionIcon()">Get champion Icon</button>
 <br>

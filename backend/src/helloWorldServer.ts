@@ -1,9 +1,9 @@
 import express from 'express';
 import { MatchRoutes } from './routes/MatchRoutes';
-import { SummonerRoutes } from './routes/SummonerRoutes';
 import { Routes } from './routes/Routes';
 import { ImageRoutes } from './routes/ImageRoutes';
 import { ChampionRoutes } from './routes/ChampionRoutes';
+import { SummonerRoutes } from './Summoner/SummonerRoutes';
 
 const app = express();
 
