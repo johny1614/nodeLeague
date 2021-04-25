@@ -22,4 +22,7 @@ Region: <input #regionInput value="EUN1"> <br>
 <input #displayMatchChampionsInput [value]="defaultMachId">
 <button (click)="displayMatchChampions()">Display match champions</button>
 
+
 <img [src]="championIcon">
+
+<img *ngFor="let icon of championIcons" [src]="icon">

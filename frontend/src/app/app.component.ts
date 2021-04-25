@@ -5,6 +5,8 @@ import { SummonerResource } from 'src/app/summoner/SummonerResourcee';
 import { ChampionResource } from 'src/app/champion/ChampionResource';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { gamesIds } from './../../../backend/src/staticData/gamesIds';
+import { ChampionDataDTO } from 'src/app/champion/ChampionDataDTO';
+import { map, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -34,6 +36,7 @@ export class AppComponent implements OnInit {
   backendHelloWorld: string;
 
   championIcon: SafeResourceUrl;
+  championIcons: Array<SafeResourceUrl>;
   defaultMachId = gamesIds[0];
 
   constructor(private _sanitizer: DomSanitizer,
@@ -84,13 +87,23 @@ export class AppComponent implements OnInit {
 
   displayMatchChampions() {
     const matchId: string = this.displayMatchChampionsInput.nativeElement.value;
+    this.championIcons = [];
     this.matchResource.getMatch(matchId).subscribe(match => {
       console.log('match', match);
       const matchChampionsKeys = match.participants.map(part => part.championId);
       console.log('matchChampionsKeys', matchChampionsKeys);
-    });
-    this.championResource.getChampionDataByChampionKey('84').subscribe(x => {
-      console.log('x', x);
+      matchChampionsKeys.forEach((key, index) => {
+        this.championResource.getChampionDataByChampionKey(key)
+            .pipe(
+              map(championData => championData.name),
+              switchMap((championName: string) => this.championResource.getChampionIcon(championName))
+            )
+            .subscribe(icon => {
+              this.championIcons.push(icon);
+              console.log('index!', index);
+              console.log('icon!', icon);
+            });
+      });
     });
   }
 }
